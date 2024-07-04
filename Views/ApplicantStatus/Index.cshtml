@@ -1,0 +1,185 @@
+﻿@model List<InternshipDotCom.Models.ApplicantInternship>
+
+@{
+    ViewData["Title"] = "Matching Applicants";
+}
+
+<style>
+    .view-details-link {
+        color: #007bff;
+        text-decoration: none;
+        border: 1px solid #007bff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+
+        .view-details-link:hover {
+            background-color: rgba(0, 123, 255, 0.2);
+            color: #007bff;
+        }
+
+    .search-icon {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .search-icon:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="row">
+
+    <div class="col-sm-9">
+    <div class="row align-items-left">
+        <div class="col-md-2">
+            <label for="ApplicantFilter" class="form-label">By Year:</label>
+        </div>
+        <div class="col-md-4" style="margin-left:-83px;">
+            <select id="ApplicantFilter" class="form-select">
+                <option value="">All</option>
+                @foreach (var ApplicantYear in ViewBag.Year)
+                {
+                    <option value="@ApplicantYear.Id">@ApplicantYear.Year</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2" style="margin-left:-20px;">
+            <button onclick="applyFilter()" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+  </div>
+
+  <div class="col-sm-3">
+        <div class="container row">
+                <input class="col-sm-8" type="text" name="query" id="searchInput" placeholder="Enter Username" required>
+                
+                <button class="col-sm-3 search-icon" type="submit"  onclick="Search()">
+                <i  class="bi bi-search"></i>
+                </button>
+        </div>
+        <div id="UserNameEmpty" style="color:red;display:none;padding-left:60px">Enter UserName !</div>
+  </div>
+</div>
+
+
+<br />
+<div class="PartialViewResult">
+<div class="container mt-4">
+
+    @if (Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Application Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var applicant in Model)
+                {
+                    <tr>
+                        <td>@applicant.FirstName</td>
+                        <td>@applicant.LastName</td>
+                        <td>@applicant.ApplicationUser.Email</td>
+                        <td>
+                            <a href="javascript:void(0);" class="view-details-link" onclick="viewDetails(@applicant.Id)">View Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Applicants is not Registered yet.</p>
+    }  
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="applicantDetailsModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <!-- Rendered applicant details will be displayed here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class=" btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        function applyFilter() {
+        var selectedYearId = document.getElementById('ApplicantFilter').value;
+
+
+            $.ajax({
+            url: '@Url.Action("Filter", "ApplicantStatus")',
+                type: 'GET',
+            data: { YearId: selectedYearId },
+                success: function (result) {
+
+                    $('.PartialViewResult').html(result);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+    function Search() {
+        var SearchedUsername = document.getElementById('searchInput').value.trim();
+
+        if (SearchedUsername === '') {
+            document.getElementById('UserNameEmpty').style.display = "block";
+        }
+        else {
+            document.getElementById('UserNameEmpty').style.display = "none";
+            $.ajax({
+                url: '@Url.Action("Search", "ApplicantStatus")',
+                type: 'GET',
+                data: { SearchedUsername: SearchedUsername },
+                success: function (result) {
+                    $('.PartialViewResult').html(result);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    }
+
+
+
+    function viewDetails(applicantId) {
+
+        $.ajax({
+            url: '@Url.Action("GetApplicantDetails", "ApplicantStatus")',
+            type: 'GET',
+            data: { applicantId: applicantId },
+            success: function (result) {
+                $('#applicantDetailsModal .modal-body').html(result);
+                $('#applicantDetailsModal').modal('show');
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+</script>
+

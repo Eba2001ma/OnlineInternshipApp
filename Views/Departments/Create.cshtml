@@ -1,0 +1,40 @@
+﻿@model InternshipDotCom.Models.Department
+
+@{
+    ViewData["Title"] = "Create Department";
+}
+
+
+
+<div class="container w-50">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Add New Department</h2>
+        </div>
+    <div class="card-body">
+       
+     
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label for="Name" class="col-sm-5 col-form-label">Department Name:</label>
+                <div class="col-sm-7">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12 offset-sm-2">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <a asp-action="Index" class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

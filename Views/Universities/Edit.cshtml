@@ -1,0 +1,37 @@
+﻿@model InternshipDotCom.Models.University
+
+@{
+    ViewData["Title"] = "Edit University";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Assuming you have a layout for consistent styling
+}
+
+<div class="container w-50">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Edit University</h2>
+        </div>
+        <div class="card-body">
+            
+         
+            <form asp-action="Edit" method="post" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="id" />
+
+                <div class="form-group">
+                    <label asp-for="name" class="control-label">University Name:</label>
+                    <input asp-for="name" class="form-control" required />
+                    <div class="invalid-feedback">Please enter the university name.</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

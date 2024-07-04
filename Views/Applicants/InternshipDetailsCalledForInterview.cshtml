@@ -1,0 +1,46 @@
+﻿@model InternshipDotCom.Models.Internship
+
+@{
+    ViewData["Title"] = "Internship Details";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Assuming you have a layout for consistent styling
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Internship Details</h2>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Internship Name</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.InternshipName)</dd>
+
+                <dt class="col-sm-3">Internship Type</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.InternshipType)</dd>
+
+                <dt class="col-sm-3">Posted At</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.PostedAt)</dd>
+
+                <dt class="col-sm-3">Number of Applicants</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.NumberOfApplicant)</dd>
+
+                <dt class="col-sm-3">Address</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Address)</dd>
+
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
+
+                <dt class="col-sm-3">Organization</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Organization.OrganizationName)</dd>
+
+                <dt class="col-sm-3">Image</dt>
+                <dd class="col-sm-9">
+                    <img src="@Html.DisplayFor(model => model.ImagePath)" class="img-fluid" alt="Internship Image">
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer">
+            <a asp-action="ViewApplicationResponses" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
