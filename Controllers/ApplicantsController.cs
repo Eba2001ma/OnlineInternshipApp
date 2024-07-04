@@ -22,9 +22,9 @@ namespace InternshipDotCom.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         public ApplicantsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
-            _context = context;
+            //_context = context;
 
-            _webHostEnvironment = webHostEnvironment;
+            //_webHostEnvironment = webHostEnvironment;
 
         
         }
